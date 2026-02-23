@@ -36,4 +36,18 @@ class Sulfuras(NormalItem):
 
     def updateQuality(self):
         self.quality = 80
+
+
+class AgedBrie(NormalItem):
+    def __init__(self, name, sell_in, quality):
+        NormalItem.__init__(self, name, sell_in, quality)
+
+    def updateQuality(self):
+        if self.quality >= 0:
+            if self.sell_in >= 0:
+                self.quality += 1
+            elif self.sell_in < 0:
+                self.quality += 2
+        else:
+            self.quality = 0
             

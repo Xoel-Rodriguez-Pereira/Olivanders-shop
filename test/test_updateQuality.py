@@ -1,5 +1,5 @@
 import pytest
-from src.logic import NormalItem, Sulfuras
+from src.logic import NormalItem, Sulfuras, AgedBrie
 
 
 @pytest.mark.updateQualityNormalItem
@@ -50,3 +50,21 @@ def test_sulfuras_quality_constant():
     item.updateQuality()
 
     assert item.quality == original_quality
+
+    
+@pytest.mark.updateQualityAgedBrie
+
+def test_aged_brie_sell_in_positive():
+    # quality should increase by 1 when sell_in is >= 0
+    item = AgedBrie("Aged Brie", sell_in=5, quality=10)
+    item.updateQuality()
+    assert item.quality == 11
+
+
+@pytest.mark.updateQualityAgedBrie
+
+def test_aged_brie_sell_in_negative():
+    # quality should increase by 2 when sell_in is < 0
+    item = AgedBrie("Aged Brie", sell_in=-1, quality=10)
+    item.updateQuality()
+    assert item.quality == 12
