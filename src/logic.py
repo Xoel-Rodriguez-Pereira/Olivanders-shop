@@ -8,3 +8,7 @@ class Item:
     def __repr__(self):
         return "%s, %s, %s" % (self.name, self.sell_in, self.quality)
     
+
+class Upgradeable():
+    def updateQuality():
+        pass
