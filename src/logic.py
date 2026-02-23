@@ -8,9 +8,12 @@ class Item:
         return "%s, %s, %s" % (self.name, self.sell_in, self.quality)
     
 
+
 class Upgradeable():
     def updateQuality():
         pass
+
+
 
 class NormalItem(Item, Upgradeable):
     def __init__(self, name, sell_in, quality):
@@ -20,7 +23,17 @@ class NormalItem(Item, Upgradeable):
         if self.quality > 0:
             if self.sell_in >= 0:
                 self.quality -= 1
-            if self.sell_in < 0:
+            elif self.sell_in < 0:
                 self.quality -= 2
         else:
             self.quality = 0
+
+
+
+class Sulfuras(NormalItem):
+    def __init__(self, name, sell_in, quality):
+        NormalItem.__init__(self, name, sell_in, quality)
+
+    def updateQuality(self):
+        self.quality = 80
+            
