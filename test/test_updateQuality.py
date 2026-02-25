@@ -8,7 +8,7 @@ def test_normal_item_sell_in_positive():
     # quality should decrease by 1 when sell_in is >= 0
     item = NormalItem("foo", sell_in=5, quality=10)
     item.updateQuality()
-    assert item.quality == 9
+    assert item.getQuality() == 9
 
 
 @pytest.mark.updateQualityNormalItem
@@ -17,7 +17,7 @@ def test_normal_item_sell_in_negative():
     # quality should decrease by 2 when sell_in is < 0
     item = NormalItem("bar", sell_in=-1, quality=10)
     item.updateQuality()
-    assert item.quality == 8
+    assert item.getQuality() == 8
 
 
 @pytest.mark.updateQualityNormalItem
@@ -27,7 +27,7 @@ def test_quality_never_goes_below_zero_when_positive_sell_in():
 
     item.updateQuality()
 
-    assert item.quality == 0
+    assert item.getQuality() == 0
 
 
 @pytest.mark.updateQualityNormalItem
@@ -37,7 +37,7 @@ def test_quality_never_goes_below_zero():
 
     item.updateQuality()
 
-    assert item.quality == 0
+    assert item.getQuality() == 0
 
 
 @pytest.mark.updateQualitySulfuras
@@ -45,11 +45,11 @@ def test_quality_never_goes_below_zero():
 def test_sulfuras_quality_constant():
     # quality should remain constant (always 80) regardless of sell_in or initial quality
     item = Sulfuras("Sulfuras, Hand of Ragnaros", sell_in=10, quality=80)
-    original_quality = item.quality
+    original_quality = item.getQuality()
 
     item.updateQuality()
 
-    assert item.quality == original_quality
+    assert item.getQuality() == original_quality
 
     
 @pytest.mark.updateQualityAgedBrie
@@ -60,7 +60,7 @@ def test_aged_brie_sell_in_positive():
 
     item.updateQuality()
 
-    assert item.quality == 11
+    assert item.getQuality() == 11
 
 
 @pytest.mark.updateQualityAgedBrie
@@ -71,7 +71,7 @@ def test_aged_brie_sell_in_negative():
 
     item.updateQuality()
 
-    assert item.quality == 12
+    assert item.getQuality() == 12
 
 
 @pytest.mark.updateQualityConjured
@@ -82,7 +82,7 @@ def test_conjured_sell_in_positive():
 
     item.updateQuality()
 
-    assert item.quality == 8
+    assert item.getQuality() == 8
 
 
 @pytest.mark.updateQualityConjured
@@ -93,7 +93,7 @@ def test_conjured_sell_in_negative():
 
     item.updateQuality()
 
-    assert item.quality == 6
+    assert item.getQuality() == 6
 
 
 @pytest.mark.updateQualityConjured
@@ -103,7 +103,7 @@ def test_conjured_quality_never_goes_below_zero_positive_sell_in():
 
     item.updateQuality()
 
-    assert item.quality == 0
+    assert item.getQuality() == 0
 
 
 @pytest.mark.updateQualityConjured
@@ -113,7 +113,7 @@ def test_conjured_quality_never_goes_below_zero():
 
     item.updateQuality()
 
-    assert item.quality == 0
+    assert item.getQuality() == 0
 
 
 @pytest.mark.updateQualityBackstage
@@ -124,7 +124,7 @@ def test_backstage_sell_in_above_ten():
 
     item.updateQuality()
 
-    assert item.quality == 11
+    assert item.getQuality() == 11
 
 
 @pytest.mark.updateQualityBackstage
@@ -135,7 +135,7 @@ def test_backstage_sell_in_between_five_and_ten():
 
     item.updateQuality()
 
-    assert item.quality == 12
+    assert item.getQuality() == 12
 
 
 @pytest.mark.updateQualityBackstage
@@ -146,7 +146,7 @@ def test_backstage_sell_in_between_zero_and_five():
 
     item.updateQuality()
 
-    assert item.quality == 13
+    assert item.getQuality() == 13
 
 
 @pytest.mark.updateQualityBackstage
@@ -157,6 +157,6 @@ def test_backstage_sell_in_zero_or_negative():
 
     item.updateQuality()
 
-    assert item.quality == 0
+    assert item.getQuality() == 0
 
 
