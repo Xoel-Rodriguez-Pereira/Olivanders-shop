@@ -17,8 +17,9 @@ class Upgradeable():
         pass
 
     def updateState(self):
+        self.updateSellIn() # The order has to be 1st updateSellIn 2º updateQuality
         self.updateQuality()
-        self.updateSellIn()
+        
 
 
 class NormalItem(Item, Upgradeable):
@@ -57,13 +58,10 @@ class AgedBrie(NormalItem):
         NormalItem.__init__(self, name, sell_in, quality)
 
     def updateQuality(self):
-        if self.quality >= 0:
-            if self.sell_in >= 0:
-                self.quality += 1
-            elif self.sell_in < 0:
-                self.quality += 2
-        else:
-            self.quality = 0
+        if self.sell_in >= 0:
+            self.quality += 1
+        elif self.sell_in < 0:
+            self.quality += 2
 
 
 class Conjured(NormalItem):
@@ -96,3 +94,22 @@ class Backstage(NormalItem):
                 self.quality = 0
         else:
             self.quality = 0
+
+        
+
+class Shop():
+    def __init__(self):
+        self.inventory = [
+            NormalItem("+5 Dexterity Vest", 10, 20),
+            AgedBrie("Aged Brie", 2, 0),
+            NormalItem("Elixir of the Mongoose", 5, 7),
+            Sulfuras("Sulfuras, Hand of Ragnaros", 0, 80),
+            Sulfuras("Sulfuras, Hand of Ragnaros", -1, 80),
+            Backstage("Backstage passes to a TAFKAL80ETC concert", 15, 20),
+            Backstage("Backstage passes to a TAFKAL80ETC concert", 10, 49),
+            Backstage("Backstage passes to a TAFKAL80ETC concert", 5, 49),
+        ]
+
+    def updateInventory(self):
+        self.inventory = [item.updateState for item in self.inventory]
+
