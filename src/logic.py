@@ -12,7 +12,13 @@ class Item:
 class Upgradeable():
     def updateQuality():
         pass
+    
+    def updateSellIn():
+        pass
 
+    def updateState(self):
+        self.updateQuality()
+        self.updateSellIn()
 
 
 class NormalItem(Item, Upgradeable):
@@ -28,6 +34,14 @@ class NormalItem(Item, Upgradeable):
         else:
             self.quality = 0
 
+    def updateSellIn(self):
+        self.sell_in -= 1
+
+    def getSellIn(self):
+        return self.sell_in
+    
+    def getQuality(self):
+        return self.quality
 
 
 class Sulfuras(NormalItem):
