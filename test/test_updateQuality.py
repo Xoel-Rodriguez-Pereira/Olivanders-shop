@@ -68,3 +68,45 @@ def test_aged_brie_sell_in_negative():
     item = AgedBrie("Aged Brie", sell_in=-1, quality=10)
     item.updateQuality()
     assert item.quality == 12
+
+
+@pytest.mark.updateQualityConjured
+
+def test_conjured_sell_in_positive():
+    # quality should decrease by 2 when sell_in is >= 0 (double normal rate)
+    from src.logic import Conjured
+    item = Conjured("Conjured Mana Cake", sell_in=5, quality=10)
+    item.updateQuality()
+    assert item.quality == 8
+
+
+@pytest.mark.updateQualityConjured
+
+def test_conjured_sell_in_negative():
+    # quality should decrease by 4 when sell_in is < 0 (double normal rate after expiration)
+    from src.logic import Conjured
+    item = Conjured("Conjured Mana Cake", sell_in=-1, quality=10)
+    item.updateQuality()
+    assert item.quality == 6
+
+
+@pytest.mark.updateQualityConjured
+
+def test_conjured_quality_never_goes_below_zero_positive_sell_in():
+    from src.logic import Conjured
+    item = Conjured("Conjured", sell_in=5, quality=1)
+
+    item.updateQuality()
+
+    assert item.quality == 0
+
+
+@pytest.mark.updateQualityConjured
+
+def test_conjured_quality_never_goes_below_zero():
+    from src.logic import Conjured
+    item = Conjured("Conjured", sell_in=-1, quality=1)
+
+    item.updateQuality()
+
+    assert item.quality == 0

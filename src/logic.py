@@ -50,4 +50,17 @@ class AgedBrie(NormalItem):
                 self.quality += 2
         else:
             self.quality = 0
-            
+
+
+class Conjured(NormalItem):
+    def __init__(self, name, sell_in, quality):
+        NormalItem.__init__(self, name, sell_in, quality)
+
+    def updateQuality(self):
+        if self.quality > 1:
+            if self.sell_in >= 0:
+                self.quality -= 2
+            elif self.sell_in < 0:
+                self.quality -= 4
+        else:
+            self.quality = 0
