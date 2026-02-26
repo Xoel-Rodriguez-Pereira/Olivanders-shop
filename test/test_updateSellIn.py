@@ -25,8 +25,9 @@ def test_conjured_item_sell_in():
 def test_sulfuras_item_sell_in():
     from src.logic import Sulfuras
     item = Sulfuras("Sulfuras, Hand of Ragnaros", sell_in=0, quality=80)
+    original = item.getSellIn()
     item.updateSellIn()
-    assert item.getSellIn() == -1
+    assert item.getSellIn() == original
 
 
 @pytest.mark.updateSellIn

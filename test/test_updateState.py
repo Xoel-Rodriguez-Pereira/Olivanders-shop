@@ -28,7 +28,7 @@ def test_sulfuras_item_update_state():
     item = Sulfuras("Sulfuras, Hand of Ragnaros", sell_in=0, quality=80)
     item.updateState()
     # sell_in should still decrease but quality remains constant
-    assert item.getSellIn() == -1
+    assert item.getSellIn() == 0
     assert item.getQuality() == 80
 
 

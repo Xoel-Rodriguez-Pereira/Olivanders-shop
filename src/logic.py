@@ -55,6 +55,9 @@ class Sulfuras(NormalItem):
     def updateQuality(self):
         self.quality = 80
 
+    def updateSellIn(self):
+        self.sell_in = self.sell_in
+
 
 class AgedBrie(NormalItem):
     def __init__(self, name, sell_in, quality):
