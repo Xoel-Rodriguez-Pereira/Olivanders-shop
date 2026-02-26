@@ -27,6 +27,9 @@ class NormalItem(Item, Upgradeable):
         Item.__init__(self, name, sell_in, quality)
 
     def updateQuality(self):
+        if self.quality >= 50:
+            self.quality = 50
+
         if self.quality > 0:
             if self.sell_in >= 0:
                 self.quality -= 1
@@ -62,6 +65,10 @@ class AgedBrie(NormalItem):
             self.quality += 1
         elif self.sell_in < 0:
             self.quality += 2
+        
+        if self.quality >= 50:
+            self.quality = 50
+            
 
 
 class Conjured(NormalItem):
@@ -69,6 +76,9 @@ class Conjured(NormalItem):
         NormalItem.__init__(self, name, sell_in, quality)
 
     def updateQuality(self):
+        if self.quality >= 50:
+            self.quality = 50
+            
         if self.quality > 1:
             if self.sell_in >= 0:
                 self.quality -= 2
@@ -95,21 +105,19 @@ class Backstage(NormalItem):
         else:
             self.quality = 0
 
-        
+        if self.quality >= 50:
+            self.quality = 50
+            
 
 class Shop():
     def __init__(self):
-        self.inventory = [
-            NormalItem("+5 Dexterity Vest", 10, 20),
-            AgedBrie("Aged Brie", 2, 0),
-            NormalItem("Elixir of the Mongoose", 5, 7),
-            Sulfuras("Sulfuras, Hand of Ragnaros", 0, 80),
-            Sulfuras("Sulfuras, Hand of Ragnaros", -1, 80),
-            Backstage("Backstage passes to a TAFKAL80ETC concert", 15, 20),
-            Backstage("Backstage passes to a TAFKAL80ETC concert", 10, 49),
-            Backstage("Backstage passes to a TAFKAL80ETC concert", 5, 49),
-        ]
+        self.inventory = []
 
     def updateInventory(self):
-        self.inventory = [item.updateState for item in self.inventory]
+        self.inventory = [item.updateItem() for item in self.inventory]
 
+    def setInventory(self, inventory):
+        self.inventory.append([item for item in inventory])
+
+    def showInventory(self):
+        print(item for item in self.inventory)

@@ -150,3 +150,61 @@ def test_backstage_sell_in_zero_or_negative():
     assert item.getQuality() == 0
 
 
+# --- boundary tests: quality must stay within [0,50] except Sulfuras ---
+
+@pytest.mark.updateQualityNormalItem
+
+def test_normal_item_quality_bounds():
+    # never below 0
+    item = NormalItem("foo", sell_in=5, quality=0)
+    item.updateQuality()
+    assert item.getQuality() == 0
+    # cap at 50 even if starting above
+    item = NormalItem("foo", sell_in=5, quality=55)
+    item.updateQuality()
+    assert item.getQuality() == 49
+
+@pytest.mark.updateQualityAgedBrie
+
+def test_aged_brie_quality_bounds():
+    # should not exceed 50
+    item = AgedBrie("Aged Brie", sell_in=5, quality=50)
+    item.updateQuality()
+    assert item.getQuality() == 50
+    item = AgedBrie("Aged Brie", sell_in=-1, quality=49)
+    item.updateQuality()
+    assert item.getQuality() == 50
+    # never go below 0, even if quality starts at 0
+    item = AgedBrie("Aged Brie", sell_in=5, quality=0)
+    item.updateQuality()
+    assert item.getQuality() >= 0
+
+@pytest.mark.updateQualityConjured
+
+def test_conjured_quality_bounds():
+    # cap at 50
+    item = Conjured("Conjured Mana Cake", sell_in=5, quality=55)
+    item.updateQuality()
+    assert item.getQuality() == 48
+    # never below 0
+    item = Conjured("Conjured Mana Cake", sell_in=-1, quality=0)
+    item.updateQuality()
+    assert item.getQuality() == 0
+
+@pytest.mark.updateQualityBackstage
+
+def test_backstage_quality_bounds():
+    # cap at 50 when increasing
+    item = Backstage("Backstage pass", sell_in=11, quality=50)
+    item.updateQuality()
+    assert item.getQuality() == 50
+    # also capped after multiple increments
+    item = Backstage("Backstage pass", sell_in=5, quality=49)
+    item.updateQuality()
+    assert item.getQuality() == 50
+    # never below 0 when already zero
+    item = Backstage("Backstage pass", sell_in=5, quality=0)
+    item.updateQuality()
+    assert item.getQuality() == 0
+
+

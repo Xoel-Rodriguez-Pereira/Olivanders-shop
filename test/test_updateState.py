@@ -110,3 +110,43 @@ def test_backstage_item_sellin_negative_after():
 
     assert item.getSellIn() == -2
     assert item.getQuality() == 0  # quality drops to zero once expired
+
+
+# boundary tests for updateState quality limits
+
+@pytest.mark.updateState
+
+def test_updateState_quality_never_exceeds_50():
+    # normal item
+    item = NormalItem("foo", sell_in=5, quality=55)
+    item.updateState()
+    assert item.getQuality() == 49
+
+    # aged brie
+    item = AgedBrie("Aged Brie", sell_in=5, quality=50)
+    item.updateState()
+    assert item.getQuality() == 50
+
+    # conjured
+    item = Conjured("Conjured Cake", sell_in=3, quality=51)
+    item.updateState()
+    assert item.getQuality() == 48
+
+    # backstage
+    item = Backstage("Backstage pass", sell_in=11, quality=50)
+    item.updateState()
+    assert item.getQuality() == 50
+
+@pytest.mark.updateState
+
+def test_updateState_quality_never_negative():
+    item = NormalItem("foo", sell_in=5, quality=0)
+    item.updateState()
+    assert item.getQuality() == 0
+    item = Conjured("Conjured Cake", sell_in=-1, quality=0)
+    item.updateState()
+    assert item.getQuality() == 0
+    # backlog for backstage
+    item = Backstage("Backstage pass", sell_in=5, quality=0)
+    item.updateState()
+    assert item.getQuality() == 0
