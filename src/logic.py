@@ -5,7 +5,7 @@ class Item:
         self.quality = quality
 
     def __repr__(self):
-        return "%s, %s, %s" % (self.name, self.sell_in, self.quality)
+        return "{0}, {1}, {2}".format(self.name, self.sell_in, self.quality)
     
 
 
@@ -111,13 +111,21 @@ class Backstage(NormalItem):
 
 class Shop():
     def __init__(self):
-        self.inventory = []
+        self._inventory = []
 
     def updateInventory(self):
-        self.inventory = [item.updateItem() for item in self.inventory]
+        updatedInventory = []
+        for item in self._inventory:
+            item.updateState()
+            updatedInventory.append(item)
 
-    def setInventory(self, inventory):
-        self.inventory.append([item for item in inventory])
+        self._inventory = updatedInventory
+
+
+    def setInventory(self, newItems):
+        for item in newItems:
+            self._inventory.append(item)
 
     def showInventory(self):
-        print(item for item in self.inventory)
+        for item in self._inventory:
+            print(item)
